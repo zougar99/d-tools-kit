@@ -1,0 +1,19 @@
+Tools folder (server / PC monitoring). Telegram needs scripts/.env (see scripts/.env.example).
+Messages use HTML header (hostname + UTC). Optional in .env: TELEGRAM_MESSAGE_STYLE, TELEGRAM_SHOW_HEADER, TELEGRAM_DISABLE_NOTIFICATION.
+
+Linux / cPanel (bash):
+  tools/http-check.sh "<url>"
+  tools/disk-alert.sh [percent] [mount]     default 90% /
+  tools/ssl-expiry.sh <host> [port] [days]  default port 443, warn if < 14 days
+  tools/ping-host.sh <host>
+
+Windows (PowerShell):
+  tools/http-check.ps1 "https://..."
+  tools/disk-alert.ps1 -DriveLetter C -ThresholdPercent 85
+
+All notify via: scripts/telegram-notify.sh or .ps1
+
+Cron examples (Linux):
+  */10 * * * * /path/tools/http-check.sh "https://mysite.com"
+  0 8 * * *   /path/tools/ssl-expiry.sh mysite.com 443 21
+  0 * * * *   /path/tools/disk-alert.sh 85 /home
